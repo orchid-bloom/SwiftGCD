@@ -1,11 +1,11 @@
 
 Pod::Spec.new do |s|
   s.name         = "SwiftGCD"
-  s.version      = "0.0.4"
+  s.version      = "0.0.5"
   s.summary      = "SwiftGCD"
   s.homepage     = "https://github.com/temagit/SwiftGCD.git"
 
-  s.license      = 'MIT'
+  s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { "TemaSir" => "tianxin@gsoft.cc" }
   s.source       = { :git => "https://github.com/temagit/SwiftGCD.git", :tag => s.version }
 

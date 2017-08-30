@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class GCDSemaphore {
+class GCDSemaphore {
     
     // MARK: 变量
     fileprivate var dispatchSemaphore : DispatchSemaphore!
@@ -26,17 +26,17 @@ open class GCDSemaphore {
     }
     
     // 执行
-    open func signal() -> Bool {
+    public func signal() -> Bool {
         
         return dispatchSemaphore.signal() != 0
     }
     
-    open func wait() {
+    public func wait() {
         
         _ = dispatchSemaphore.wait(timeout: DispatchTime.distantFuture)
     }
     
-    open func wait(timeoutNanoseconds : DispatchTimeInterval) -> Bool {
+    public func wait(timeoutNanoseconds : DispatchTimeInterval) -> Bool {
         
         if dispatchSemaphore.wait(timeout: DispatchTime.now() + timeoutNanoseconds) == DispatchTimeoutResult.success {
             

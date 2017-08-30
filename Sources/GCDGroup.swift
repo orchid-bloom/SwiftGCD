@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class GCDGroup {
+class GCDGroup {
     
     // MARK: 变量
     let dispatchGroup : DispatchGroup!
@@ -20,22 +20,22 @@ open class GCDGroup {
     }
     
     // MARK: 操作
-    open func enter() {
+    public func enter() {
         
         dispatchGroup.enter()
     }
     
-    open func leave() {
+    public func leave() {
         
         dispatchGroup.leave()
     }
     
-    open func wait() {
+    public func wait() {
         
         _ = dispatchGroup.wait(timeout: DispatchTime.distantFuture)
     }
     
-    open func waitWithNanoseconds(_ nanoseconds : DispatchTimeInterval) -> Bool {
+    public func waitWithNanoseconds(_ nanoseconds : DispatchTimeInterval) -> Bool {
         
         if dispatchGroup.wait(timeout: DispatchTime.now() + nanoseconds) == DispatchTimeoutResult.success  {
             
@@ -47,7 +47,7 @@ open class GCDGroup {
         }
     }
     
-    open func notify(queue: DispatchQueue, work: DispatchWorkItem)  {
+    public func notify(queue: DispatchQueue, work: DispatchWorkItem)  {
         
         dispatchGroup.notify(queue: queue, work: work)
     }
