@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GCDTimer {
+open class GCDTimer {
     
     // MARK: 变量
     fileprivate let dispatchSource : DispatchSourceTimer!
@@ -52,19 +52,19 @@ class GCDTimer {
     }
     
     // MARK: 执行无参数
-    public func event(interval : DispatchTimeInterval ,block : @escaping ()->Void) {
+    open func event(interval : DispatchTimeInterval ,block : @escaping ()->Void) {
         
         dispatchSource.scheduleOneshot(deadline: .now() + interval)
         dispatchSource.setEventHandler(handler: block)
     }
     
-    public func eventRepeating(interval : DispatchTimeInterval , block : @escaping ()->Void) {
+    open func eventRepeating(interval : DispatchTimeInterval , block : @escaping ()->Void) {
         
         dispatchSource.scheduleRepeating(deadline: .now() + interval, interval: interval)
         dispatchSource.setEventHandler(handler: block)
     }
     
-    public static func repeaticTimer(interval: DispatchTimeInterval, queue: DispatchQueue = .main , handler: @escaping GCDTimerHandler ) -> GCDTimer {
+    open static func repeaticTimer(interval: DispatchTimeInterval, queue: DispatchQueue = .main , handler: @escaping GCDTimerHandler ) -> GCDTimer {
         
         return GCDTimer(interval: interval, repeats: true, queue: queue, handler: handler)
     }
@@ -76,7 +76,7 @@ class GCDTimer {
     }
     
     //You can use this method to fire a repeating timer without interrupting its regular firing schedule. If the timer is non-repeating, it is automatically invalidated after firing, even if its scheduled fire date has not arrived.
-    public func fire() {
+    open func fire() {
         if repeats {
             handler(self)
         } else {
@@ -85,7 +85,7 @@ class GCDTimer {
         }
     }
     
-    public func start() {
+    open func start() {
         if !isRunning {
             dispatchSource.resume()
             isRunning = true
@@ -94,7 +94,7 @@ class GCDTimer {
         }
     }
     
-    public func suspend() {
+    open func suspend() {
         if isRunning {
             dispatchSource.suspend()
             isRunning = false
@@ -103,23 +103,23 @@ class GCDTimer {
         }
     }
     
-    public func destroy() {
+    open func destroy() {
         
         dispatchSource.cancel()
     }
     
-    public func setCancelHandler(_ handler: @escaping ()->Void) {
+    open func setCancelHandler(_ handler: @escaping ()->Void) {
         
         dispatchSource.setCancelHandler(handler: DispatchWorkItem(block: handler));
     }
     
-    public func rescheduleRepeating(interval: DispatchTimeInterval) {
+    open func rescheduleRepeating(interval: DispatchTimeInterval) {
         if repeats {
             dispatchSource.scheduleRepeating(deadline: .now() + interval, interval: interval)
         }
     }
     
-    public func rescheduleHandler(handler: @escaping GCDTimerHandler) {
+    open func rescheduleHandler(handler: @escaping GCDTimerHandler) {
         self.handler = handler
         dispatchSource.setEventHandler { [weak self] in
             if let strongSelf = self {
@@ -135,7 +135,7 @@ extension GCDTimer {
     
     fileprivate static var timers = [String:DispatchSourceTimer]()
     
-    public static func throttle(interval: DispatchTimeInterval, identifier: String, queue: DispatchQueue = .main , handler: @escaping () -> Void ) {
+    open static func throttle(interval: DispatchTimeInterval, identifier: String, queue: DispatchQueue = .main , handler: @escaping () -> Void ) {
         
         if let previousTimer = timers[identifier] {
             previousTimer.cancel()
@@ -153,7 +153,7 @@ extension GCDTimer {
         timer.resume()
     }
     
-    public static func cancelThrottlingTimer(identifier: String) {
+    open static func cancelThrottlingTimer(identifier: String) {
         if let previousTimer = timers[identifier] {
             previousTimer.cancel()
             timers.removeValue(forKey: identifier)
@@ -191,15 +191,15 @@ class CountDownTimer {
         }
     }
     
-    public func start() {
+    open func start() {
         self.internalTimer.start()
     }
     
-    public func suspend() {
+    open func suspend() {
         self.internalTimer.suspend()
     }
     
-    public func reCountDown() {
+    open func reCountDown() {
         self.leftTimes = self.originalTimes
     }
     

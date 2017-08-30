@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "SwiftGCD"
-  s.version      = "0.0.3"
+  s.version      = "0.0.4"
   s.summary      = "SwiftGCD"
   s.homepage     = "https://github.com/temagit/SwiftGCD.git"
 
@@ -13,8 +13,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = 'Sources/**/*'
-  s.public_header_files = ["Sources/GCDGroup.swift",GCDQueue.swift",GCDSemaphore.swift",GCDTimer.swift"]
   s.framework    = "UIKit"
   s.pod_target_xcconfig = { 'SWIFT_VERSION' => '3.0' }
- 
 end

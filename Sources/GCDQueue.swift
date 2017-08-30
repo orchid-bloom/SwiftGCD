@@ -8,21 +8,21 @@
 
 import UIKit
 
-enum QueueType {
+public enum QueueType {
     
     case serialQueue,// 串行线程队列
     concurrentQueue, // 并发线程队列
     none             // 无类型
 }
 
-class GCDQueue {
+open class GCDQueue {
     
     // MARK: 变量
-    public var dispatchQueue : DispatchQueue!
+    open var dispatchQueue : DispatchQueue!
     
     // MARK: 初始化
     public init() {
-        
+    
         dispatchQueue = DispatchQueue(label: "", attributes: DispatchQueue.Attributes.concurrent)
     }
     
@@ -45,11 +45,12 @@ class GCDQueue {
             dispatchQueue = nil
             break
         }
+
     }
     
     // MARK: 单例
     // userInteractive > default > unspecified > userInitiated > utility > background
-    public static let mainQueue : GCDQueue = {
+    open static let mainQueue : GCDQueue = {
         
         let instance           = GCDQueue(queueType: .none)
         instance.dispatchQueue = DispatchQueue.main
@@ -57,7 +58,7 @@ class GCDQueue {
         return instance
     }()
     
-    public static let userInteractiveGlobalQueue : GCDQueue = {
+    open static let userInteractiveGlobalQueue : GCDQueue = {
         
         let instance           = GCDQueue(queueType: .none)
         instance.dispatchQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.userInteractive)
@@ -65,7 +66,7 @@ class GCDQueue {
         return instance
     }()
     
-    public static let globalQueue : GCDQueue = {
+    open static let globalQueue : GCDQueue = {
         
         let instance           = GCDQueue(queueType: .none)
         instance.dispatchQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.default)
@@ -73,7 +74,7 @@ class GCDQueue {
         return instance
     }()
     
-    public static let unspecifiedGlobalQueue : GCDQueue = {
+    open static let unspecifiedGlobalQueue : GCDQueue = {
         
         let instance           = GCDQueue(queueType: .none)
         instance.dispatchQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.unspecified)
@@ -81,7 +82,7 @@ class GCDQueue {
         return instance
     }()
     
-    public static let userInitiatedGlobalQueue : GCDQueue = {
+    open static let userInitiatedGlobalQueue : GCDQueue = {
         
         let instance           = GCDQueue(queueType: .none)
         instance.dispatchQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.userInitiated)
@@ -89,7 +90,7 @@ class GCDQueue {
         return instance
     }()
     
-    public static let utilityGlobalQueue : GCDQueue = {
+    open static let utilityGlobalQueue : GCDQueue = {
         
         let instance           = GCDQueue(queueType: .none)
         instance.dispatchQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.utility)
@@ -97,7 +98,7 @@ class GCDQueue {
         return instance
     }()
     
-    public static let backgroundPriorityGlobalQueue : GCDQueue = {
+    open static let backgroundPriorityGlobalQueue : GCDQueue = {
         
         let instance           = GCDQueue(queueType: .none)
         instance.dispatchQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
@@ -112,12 +113,12 @@ class GCDQueue {
      
      - parameter block: dispatch block
      */
-    public func excute(_ block : @escaping ()->Void) {
+    open func excute(_ block : @escaping ()->Void) {
         
         dispatchQueue.async(execute: block)
     }
     
-    public func excute(_ block : @escaping ()->Void, afterDelayWithNanoseconds : DispatchTimeInterval) {
+    open func excute(_ block : @escaping ()->Void, afterDelayWithNanoseconds : DispatchTimeInterval) {
         
         dispatchQueue.asyncAfter(deadline: DispatchTime.now() + afterDelayWithNanoseconds, execute: block)
     }
@@ -127,7 +128,7 @@ class GCDQueue {
      
      - parameter block: dispatch block
      */
-    public func waitExecute(_ block : ()->Void) {
+    open func waitExecute(_ block : ()->Void) {
         
         dispatchQueue.sync(execute: block)
     }
@@ -137,7 +138,7 @@ class GCDQueue {
      
      - parameter block: dispatch block
      */
-    public func barrierExecute(_ block : @escaping ()->Void) {
+    open func barrierExecute(_ block : @escaping ()->Void) {
         
         dispatchQueue.async(flags: .barrier, execute: block)
     }
@@ -147,89 +148,89 @@ class GCDQueue {
      
      - parameter block: dispatch block
      */
-    public func waitBarrierExecute(_ block : ()->Void) {
+    open func waitBarrierExecute(_ block : ()->Void) {
         
         dispatchQueue.sync(flags: .barrier, execute: block)
     }
     
     // MARK: 便利构造器方法
-    public class func executeInMainQueue(_ block : @escaping ()->Void) {
+    open class func executeInMainQueue(_ block : @escaping ()->Void) {
         
         mainQueue.dispatchQueue.async(execute: block)
     }
     
-    public class func executeInGlobalQueue(_ block : @escaping ()->Void) {
+    open class func executeInGlobalQueue(_ block : @escaping ()->Void) {
         
         globalQueue.dispatchQueue.async(execute: block)
     }
     
-    public class func executeInUserInteractiveGlobalQueueGlobalQueue(_ block : @escaping ()->Void) {
+    open class func executeInUserInteractiveGlobalQueueGlobalQueue(_ block : @escaping ()->Void) {
         
         userInteractiveGlobalQueue.dispatchQueue.async(execute: block)
     }
     
-    public class func executeInUnspecifiedGlobalQueueGlobalQueue(_ block : @escaping ()->Void) {
+    open class func executeInUnspecifiedGlobalQueueGlobalQueue(_ block : @escaping ()->Void) {
         
         unspecifiedGlobalQueue.dispatchQueue.async(execute: block)
     }
     
-    public class func executeInUserInitiatedGlobalQueueGlobalQueue(_ block : @escaping ()->Void) {
+    open class func executeInUserInitiatedGlobalQueueGlobalQueue(_ block : @escaping ()->Void) {
         
         userInitiatedGlobalQueue.dispatchQueue.async(execute: block)
     }
     
-    public class func executeInUtilityGlobalQueueGlobalQueue(_ block : @escaping ()->Void) {
+    open class func executeInUtilityGlobalQueueGlobalQueue(_ block : @escaping ()->Void) {
         
         utilityGlobalQueue.dispatchQueue.async(execute: block)
     }
     
-    public class func executeInBackgroundPriorityGlobalQueue(_ block : @escaping ()->Void) {
+    open class func executeInBackgroundPriorityGlobalQueue(_ block : @escaping ()->Void) {
         
         backgroundPriorityGlobalQueue.dispatchQueue.async(execute: block)
     }
     
-    public class func executeInMainQueue(_ block : @escaping ()->Void, afterDelaySeconds : DispatchTimeInterval) {
+    open class func executeInMainQueue(_ block : @escaping ()->Void, afterDelaySeconds : DispatchTimeInterval) {
         
         mainQueue.dispatchQueue.asyncAfter(deadline: DispatchTime.now() + afterDelaySeconds, execute: block)
     }
     
-    public class func executeInGlobalQueue(_ block : @escaping ()->Void, afterDelaySeconds : DispatchTimeInterval) {
+    open class func executeInGlobalQueue(_ block : @escaping ()->Void, afterDelaySeconds : DispatchTimeInterval) {
         
         globalQueue.dispatchQueue.asyncAfter(deadline: DispatchTime.now() + afterDelaySeconds, execute: block)
     }
     
-    public class func executeInUserInteractiveGlobalQueueGlobalQueue(_ block : @escaping ()->(), afterDelaySeconds : DispatchTimeInterval) {
+    open class func executeInUserInteractiveGlobalQueueGlobalQueue(_ block : @escaping ()->(), afterDelaySeconds : DispatchTimeInterval) {
         
         userInteractiveGlobalQueue.dispatchQueue.asyncAfter(deadline: DispatchTime.now() + afterDelaySeconds, execute: block)
     }
     
-    public class func executeInUnspecifiedGlobalQueue(_ block : @escaping ()->Void, afterDelaySeconds : DispatchTimeInterval) {
+    open class func executeInUnspecifiedGlobalQueue(_ block : @escaping ()->Void, afterDelaySeconds : DispatchTimeInterval) {
         
         unspecifiedGlobalQueue.dispatchQueue.asyncAfter(deadline: DispatchTime.now() + afterDelaySeconds, execute: block)
     }
     
-    public class func executeInUserInitiatedGlobalQueue(_ block : @escaping ()->Void, afterDelaySeconds : DispatchTimeInterval) {
+    open class func executeInUserInitiatedGlobalQueue(_ block : @escaping ()->Void, afterDelaySeconds : DispatchTimeInterval) {
         
         userInitiatedGlobalQueue.dispatchQueue.asyncAfter(deadline: DispatchTime.now() + afterDelaySeconds, execute: block)
     }
     
-    public class func executeInUtilityGlobalQueue(_ block : @escaping ()->Void, afterDelaySeconds : DispatchTimeInterval) {
+    open class func executeInUtilityGlobalQueue(_ block : @escaping ()->Void, afterDelaySeconds : DispatchTimeInterval) {
         
         utilityGlobalQueue.dispatchQueue.asyncAfter(deadline: DispatchTime.now() + afterDelaySeconds, execute: block)
     }
     
-    public class func executeInBackgroundPriorityGlobalQueue(_ block : @escaping ()->Void, afterDelaySeconds : DispatchTimeInterval) {
+    open class func executeInBackgroundPriorityGlobalQueue(_ block : @escaping ()->Void, afterDelaySeconds : DispatchTimeInterval) {
         
         backgroundPriorityGlobalQueue.dispatchQueue.asyncAfter(deadline: DispatchTime.now() + afterDelaySeconds, execute: block)
     }
     
     // MARK: 恢复与挂起
-    public func suspend() {
+    open func suspend() {
         
         dispatchQueue.suspend()
     }
     
-    public func resume() {
+    open func resume() {
         
         dispatchQueue.resume()
     }
@@ -237,13 +238,13 @@ class GCDQueue {
     
     // MARK: GCDGroup相关
     
-    public func excute(_ block : @escaping ()->Void, inGroup : GCDGroup!) {
+    open func excute(_ block : @escaping ()->Void, inGroup : GCDGroup!) {
         
         let item = DispatchWorkItem(block: block)
         DispatchQueue.global().async(group: inGroup.dispatchGroup, execute: item)
     }
     
-    public func notify(_ block : @escaping ()->Void, inGroup : GCDGroup!) {
+    open func notify(_ block : @escaping ()->Void, inGroup : GCDGroup!) {
         
         inGroup.dispatchGroup.notify(queue: dispatchQueue, execute: block)
     }
