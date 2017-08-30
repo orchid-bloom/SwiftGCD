@@ -1,7 +1,7 @@
 
 Pod::Spec.new do |s|
   s.name         = "SwiftGCD"
-  s.version      = "0.0.1"
+  s.version      = "0.0.2"
   s.summary      = "SwiftGCD"
   s.homepage     = "https://github.com/temagit/SwiftGCD.git"
 
@@ -12,6 +12,8 @@ Pod::Spec.new do |s|
   s.platform     = :ios, '8.0'
   s.requires_arc = true
 
-  s.source_files = 'SwiftGCD/*.swift'
+  s.source_files     = 'Sources/**/*'
   s.framework    = "UIKit"
+  s.pod_target_xcconfig = { 'SWIFT_VERSION' => '3.0' }
+ 
 end
