@@ -1,4 +1,3 @@
-[对原Swift-GCD升级](https://github.com/YouXianMing/Swift-GCD.git)
 # SwiftGCD
 
 Swift-GCD Package GCDGroup, GCDQueue, GCDSemaphore ,GCDTimer
